@@ -1,16 +1,14 @@
+import { ReactNode } from 'react'
+
 import './globals.css'
 
 const RootLayout = ({
   children,
 }: {
-  children: React.ReactNode
+  children: ReactNode
   }) => {
   return (
-    <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
+    <html lang="en" className="bg-white">
       <head />
       <body>{children}</body>
     </html>

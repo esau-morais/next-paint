@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .hue-wrapper .react-colorful__hue {
+    @apply rounded-b-md;
+  }
+  .hue-wrapper .react-colorful__saturation {
+    @apply rounded-t-md;
+  }
+  .hue-wrapper .react-colorful__saturation-pointer {
+    @apply w-3 h-3  rounded-full;
+  }
+  .hue-wrapper .react-colorful__hue-pointer {
+    @apply w-2 border rounded-md shadow-md;
+  }
+}
