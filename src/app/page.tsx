@@ -2,10 +2,11 @@
 
 import { DropdownMenu } from '@/components'
 import { useDraw } from '@/hooks/draw'
+import { useWindowSize } from '@/hooks/windowSize'
 import { Draw } from '@/lib/types'
 
 const Home = () => {
-  if (typeof window === 'undefined') return
+  const { width, height } = useWindowSize()
 
   const drawLine = ({ previousPoint, currentPoint, context }: Draw) => {
     const { x, y } = currentPoint
@@ -43,8 +44,8 @@ const Home = () => {
           className="select-none absolute inset-0 z-10"
           ref={canvasReference}
           onMouseDown={leaveMouseOverElement}
-          width={window.innerWidth ?? 0}
-          height={window.innerHeight ?? 0}
+          width={width}
+          height={height}
         />
       </div>
     </>
