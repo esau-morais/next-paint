@@ -12,7 +12,7 @@ const DropdownMenu = ({ handlers }: { handlers: Array<{ [key: string]: () => voi
       id: 1,
       icon: <TrashIcon />,
       label: 'Reset the canvas',
-      handler: handlers[0].handler
+      handler: handlers[0].clearCanvas
     }
   ]
 
