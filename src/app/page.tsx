@@ -5,6 +5,8 @@ import { useDraw } from '@/hooks/draw'
 import { Draw } from '@/lib/types'
 
 const Home = () => {
+  if (typeof window === 'undefined') return
+
   const drawLine = ({ previousPoint, currentPoint, context }: Draw) => {
     const { x, y } = currentPoint
     const lineWidth = 5
