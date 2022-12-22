@@ -1,36 +1,49 @@
 'use client'
 
 import { DropdownMenu } from '@/components'
+import { Handlers } from '@/components/molecules/DropdownMenu'
 import { useDraw } from '@/hooks/draw'
 import { useWindowSize } from '@/hooks/windowSize'
 import { Draw } from '@/lib/types'
+import { useCallback } from 'react'
+
+const drawLine = ({ previousPoint, currentPoint, context }: Draw) => {
+  const { x, y } = currentPoint
+  const lineWidth = 5
+
+  const startPoint = previousPoint ?? currentPoint
+  context.beginPath()
+  context.lineWidth = lineWidth
+  // TODO: set custom line color
+  context.strokeStyle = '#000' 
+  context.moveTo(startPoint.x, startPoint.y)
+  context.lineTo(x, y)
+  context.stroke()
+
+  context.fillStyle = '#000' 
+  context.beginPath()
+  context.arc(startPoint.x, startPoint.y, 2, 0, 2 * Math.PI)
+  context.fill()
+}
 
 const Home = () => {
   const { width, height } = useWindowSize()
-
-  const drawLine = ({ previousPoint, currentPoint, context }: Draw) => {
-    const { x, y } = currentPoint
-    const lineWidth = 5
-
-    const startPoint = previousPoint ?? currentPoint
-    context.beginPath()
-    context.lineWidth = lineWidth
-    // TODO: set custom line color
-    context.strokeStyle = '#000' 
-    context.moveTo(startPoint.x, startPoint.y)
-    context.lineTo(x, y)
-    context.stroke()
-
-    context.fillStyle = '#000' 
-    context.beginPath()
-    context.arc(startPoint.x, startPoint.y, 2, 0, 2 * Math.PI)
-    context.fill()
-  }
   const { canvasReference, leaveMouseOverElement, clearCanvas } = useDraw(drawLine)
+
+  const downloadCanvas = useCallback(() => {
+    const dataURL = canvasReference.current?.toDataURL() ?? ''
+    const link = document.createElement('a')
+    link.download = 'art.png'
+    link.href = dataURL
+    link.click()
+  }, [canvasReference])
 
   const handlers = [
     {
-      clearCanvas 
+      handler: downloadCanvas 
+    },
+    {
+      handler: clearCanvas 
     }
   ]
 

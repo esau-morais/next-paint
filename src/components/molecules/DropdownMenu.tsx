@@ -4,15 +4,27 @@ import { Fragment } from 'react'
 
 import { Item } from '@/lib/types'
 import { Menu, Transition } from '@headlessui/react'
-import { HamburgerMenuIcon, TrashIcon } from '@radix-ui/react-icons'
+import { DownloadIcon, HamburgerMenuIcon, TrashIcon } from '@radix-ui/react-icons'
 
-const DropdownMenu = ({ handlers }: { handlers: Array<{ [key: string]: () => void }> }) => {
+import { MenuItem } from '../atoms'
+
+export type Handlers = {
+  handlers: Array<{ [key: string]: () => void }>
+}
+
+const DropdownMenu = ({ handlers }: Handlers) => {
   const ITEMS: Array<Item> = [
     {
       id: 1,
+      icon: <DownloadIcon />,
+      label: 'Download',
+      handler: handlers[0].handler
+    },
+    {
+      id: 2,
       icon: <TrashIcon />,
       label: 'Reset the canvas',
-      handler: handlers[0].clearCanvas
+      handler: handlers[1].handler
     }
   ]
 
@@ -32,19 +44,9 @@ const DropdownMenu = ({ handlers }: { handlers: Array<{ [key: string]: () => voi
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           {ITEMS.map(item => (
-            <Menu.Item key={item.id}>
-              <button
-                className="group flex w-full items-center rounded-md px-2 py-2 text-sm"
-                onClick={item.handler}
-              >
-                {item ? item.icon : null}
-                <span>
-                  Reset the canvas 
-                </span>
-              </button>
-            </Menu.Item>
+            <MenuItem key={item.id} {...item} />
           ))}
         </Menu.Items>
       </Transition>
