@@ -1,11 +1,11 @@
 'use client'
 
+import { useCallback } from 'react'
+
 import { DropdownMenu } from '@/components'
-import { Handlers } from '@/components/molecules/DropdownMenu'
 import { useDraw } from '@/hooks/draw'
 import { useWindowSize } from '@/hooks/windowSize'
 import { Draw } from '@/lib/types'
-import { useCallback } from 'react'
 
 const drawLine = ({ previousPoint, currentPoint, context }: Draw) => {
   const { x, y } = currentPoint
