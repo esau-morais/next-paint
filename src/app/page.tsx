@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { DropdownMenu } from '@/components'
 import { useDraw } from '@/hooks/draw'
@@ -29,6 +29,20 @@ const drawLine = ({ previousPoint, currentPoint, context }: Draw) => {
 const Home = () => {
   const { width, height } = useWindowSize()
   const { canvasReference, leaveMouseOverElement, clearCanvas } = useDraw(drawLine)
+
+  useEffect(() => {
+    const canvas = canvasReference.current
+    if (!canvas) return
+
+    const savedCanvasDataURL = localStorage.getItem('canvas')
+    if (savedCanvasDataURL) {
+      const image = new Image()
+      image.src = savedCanvasDataURL
+      image.onload = () => {
+        canvas.getContext('2d')?.drawImage(image, 0, 0)
+      }
+    }
+  }, [canvasReference])
 
   const downloadCanvas = useCallback(() => {
     const dataURL = canvasReference.current?.toDataURL() ?? ''

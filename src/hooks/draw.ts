@@ -46,12 +46,22 @@ export const useDraw = (onDraw: ({ context, currentPoint, previousPoint }: Draw)
       previousPointReference.current = null
     }
 
+    window.addEventListener('beforeunload', () => {
+      if (!canvasElement) return
+
+      localStorage.setItem('canvas', canvasElement.toDataURL())
+    })
     // desktop support
     canvasElement?.addEventListener('mousemove', handleCurrentPointChange)
     window.addEventListener('mouseup', handleMouseLeave)
     // TODO: add mobile support
 
     return () => {
+      window.removeEventListener('beforeunload', () => {
+        if (!canvasElement) return
+
+        localStorage.removeItem('canvas')
+      })
       canvasElement?.removeEventListener('mousemove', handleCurrentPointChange)
       window.removeEventListener('mouseup', handleMouseLeave)
     }
