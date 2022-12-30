@@ -11,15 +11,6 @@ export const useDraw = (onDraw: ({ context, currentPoint, previousPoint }: Draw)
 
   const leaveMouseOverElement = () => setIsMouseOverElement(true)
 
-  const clearCanvas = () => {
-    if (!canvasElement) return
-
-    const context = canvasElement.getContext('2d')
-    if (!context) return
-
-    context.clearRect(0, 0, canvasElement.width, canvasElement.height)
-  }
-
   useEffect(() => {
     const computePointInCanvas = (event: MouseEvent) => {
       if (!canvasElement) return
@@ -67,5 +58,5 @@ export const useDraw = (onDraw: ({ context, currentPoint, previousPoint }: Draw)
     }
   }, [canvasElement, isMouseOverElement, onDraw])
 
-  return { canvasReference, leaveMouseOverElement, clearCanvas }
+  return { canvasReference, leaveMouseOverElement }
 }

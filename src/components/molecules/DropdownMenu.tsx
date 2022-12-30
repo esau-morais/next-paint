@@ -30,11 +30,12 @@ const DropdownMenu = ({ handlers }: Handlers) => {
 
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <Menu.Button className="inline-flex w-full justify-center rounded-md bg-transparent border border-zinc-800 p-2 font-medium text-white hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-zinc-800">
-          <HamburgerMenuIcon color="black" />
-        </Menu.Button>
-      </div>
+      <Menu.Button
+        className="inline-flex w-full justify-center rounded-md bg-transparent border border-zinc-800 p-2 font-medium text-white hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-zinc-800"
+        data-testid="dropdown_menu_btn"
+      >
+        <HamburgerMenuIcon color="black" />
+      </Menu.Button>
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"

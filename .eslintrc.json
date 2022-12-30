@@ -48,7 +48,7 @@
         "groups": [
           "/^react/",
           "/^next|@next/",
-          "/^@testing/",
+          "/^@testing|vitest/",
           "module",
           "/^components/",
           "/^hooks/",

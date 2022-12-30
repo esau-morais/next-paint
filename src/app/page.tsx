@@ -2,9 +2,8 @@
 
 import { useCallback, useEffect } from 'react'
 
-import { DropdownMenu } from '@/components'
+import { Canvas, DropdownMenu } from '@/components'
 import { useDraw } from '@/hooks/draw'
-import { useWindowSize } from '@/hooks/windowSize'
 import { Draw } from '@/lib/types'
 
 const drawLine = ({ previousPoint, currentPoint, context }: Draw) => {
@@ -27,8 +26,7 @@ const drawLine = ({ previousPoint, currentPoint, context }: Draw) => {
 }
 
 const Home = () => {
-  const { width, height } = useWindowSize()
-  const { canvasReference, leaveMouseOverElement, clearCanvas } = useDraw(drawLine)
+  const { canvasReference, leaveMouseOverElement } = useDraw(drawLine)
 
   useEffect(() => {
     const canvas = canvasReference.current
@@ -47,9 +45,20 @@ const Home = () => {
   const downloadCanvas = useCallback(() => {
     const dataURL = canvasReference.current?.toDataURL() ?? ''
     const link = document.createElement('a')
+    // TODO: give user the right to rename the file
     link.download = 'art.png'
     link.href = dataURL
     link.click()
+  }, [canvasReference])
+
+  const clearCanvas = useCallback(() => {
+    const canvasElement = canvasReference.current
+    if (!canvasElement) return
+    const context = canvasElement.getContext('2d')
+
+    if (!context) return
+    context.clearRect(0, 0, canvasElement.width, canvasElement.height)
+    localStorage.removeItem('canvas')
   }, [canvasReference])
 
   const handlers = [
@@ -63,18 +72,10 @@ const Home = () => {
 
   return (
     <>
-      <header className="z-20 fixed top-4 inset-x-2">
+      <header className="z-20 fixed top-4 inset-x-4">
         <DropdownMenu handlers={handlers} />
       </header>
-      <div className="p-4 w-full mx-auto min-h-screen flex flex-col md:flex-row justify-center items-center space-y-8 md:space-x-8">
-        <canvas
-          className="select-none absolute inset-0 z-10"
-          ref={canvasReference}
-          onMouseDown={leaveMouseOverElement}
-          width={width}
-          height={height}
-        />
-      </div>
+      <Canvas ref={canvasReference} onMouseDown={leaveMouseOverElement} />
     </>
   )
 }
